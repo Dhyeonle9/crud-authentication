@@ -14,7 +14,7 @@ def detail(request, id):
     context= {
         'article': article,
     }
-    return redirect('articles:detail', id=article.id)
+    return render(request, 'detail.html', context)
 
 def create(request):
     if request.method == 'POST':
@@ -31,7 +31,9 @@ def create(request):
         'form': form,
     }
     return render(request, 'form.html', context)
-def update(request):
+def update(request, id):
     pass
-def delete(request):
-    pass
+def delete(request, id):
+    article = Article.objects.get(id=id)
+    article.delete()
+    return redirect('articles:index')

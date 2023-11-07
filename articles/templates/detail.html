@@ -1,6 +1,13 @@
 {% extends 'base.html' %}
 
 {% block body %}
-    {{ article.title }}
-    {{ article.content }}
+    {% if article.user == request.user %}
+        <a href="{% url 'articles:delete' id=article.id%}">delete</a>
+        <a href="{% url 'articles:update' id=article.id %}">update</a>
+    {% endif %}
+    <p>{{ article.title }}</p>
+    <p>{{ article.user }}</p>
+    <hr>
+    <p>{{ article.content }}</p>
+    
 {% endblock %}

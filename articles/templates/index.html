@@ -3,8 +3,11 @@
 {% block body %}
     <h1>index</h1>
     {% for article in articles %}
-    <a href="{% url 'articles:detail' id=article.id %}">{{ article.title }}</a>
-    {{ article.user }}
+    <div class="d-flex justify-content-between">
+        <a href="{% url 'articles:detail' id=article.id %}">{{ article.title }}</a>
+        <span>{{ article.user }}</span>
+        
+    </div>
     <hr>
     {% endfor %}
 {% endblock %}
