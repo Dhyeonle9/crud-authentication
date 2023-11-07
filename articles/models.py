@@ -11,7 +11,7 @@ class Article(models.Model):
     # user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     # 2. 권장 -> settings.AUTH_USER_MODEL == 'accounts.User' 유지보수에 유리
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    # user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     # 3. 권장 -> auth에서 get_user_model 함수를 가져와 실행결과를 ForeignKey에 참조값으로 씀
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
