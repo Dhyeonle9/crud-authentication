@@ -1,13 +1,20 @@
 {% extends 'base.html' %}
 
 {% block body %}
-    {% if article.user == request.user %}
-        <a href="{% url 'articles:delete' id=article.id%}">delete</a>
+<a href="{% url 'articles:index' %}" class="d-flex justify-content-end">to list</a>
+<div class="card">
+    <div class="card-header d-flex justify-content-between">
+        <span class="">{{ article.title }}</span>
+        <span class="">{{ article.user }}</span>
+    </div>
+    <div class="card-body">
+        <p>{{ article.content }}</p>
+    </div>
+    <div class="card-footer">
+        {% if article.user == request.user %}
         <a href="{% url 'articles:update' id=article.id %}">update</a>
-    {% endif %}
-    <p>{{ article.title }}</p>
-    <p>{{ article.user }}</p>
-    <hr>
-    <p>{{ article.content }}</p>
-    
+        <a href="{% url 'articles:delete' id=article.id %}">delete</a>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}
