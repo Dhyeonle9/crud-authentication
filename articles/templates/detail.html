@@ -11,10 +11,37 @@
         <p>{{ article.content }}</p>
     </div>
     <div class="card-footer">
-        {% if article.user == request.user %}
+        {% if article.user == user %}
         <a href="{% url 'articles:update' id=article.id %}">update</a>
         <a href="{% url 'articles:delete' id=article.id %}">delete</a>
         {% endif %}
+    </div>
+</div>
+<div>
+    <h4>댓글</h4>
+    <hr>    
+    <div>
+        {% if user.is_authenticated %}
+        <form action="{% url 'articles:comment_create' id=article.id %}" method="POST">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit">
+        </form>
+        {% endif %}
+    </div>
+    <div>
+        {% for comment in article.comment_set.all %}
+            <ul>
+                <li>
+                    {{ comment.user }}:
+                    {{ comment.content }}
+                    {% if comment.user == user %}
+                    <a href="{% url 'articles:comment_delete' id=article.id comment_id=comment.id %}">delete</a>
+                    {% endif %}
+                </li>
+            </ul>
+            <hr>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}

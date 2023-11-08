@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from .models import Article
-from .forms import ArticleForm
+from .models import Article, Comment
+from .forms import ArticleForm, CommentForm
 from django.contrib.auth.decorators import login_required
 
 def index(request):
@@ -12,8 +12,10 @@ def index(request):
 
 def detail(request, id):
     article = Article.objects.get(id=id)
+    form = CommentForm()
     context= {
         'article': article,
+        'form': form,
     }
     return render(request, 'detail.html', context)
 
@@ -53,8 +55,18 @@ def delete(request, id):
     article.delete()
     return redirect('articles:index')
 
+@login_required
 def comment_create(request, id):
-    pass
+    form = CommentForm(request.POST)
+    if form.is_valid():
+        comment = form.save(commit=False)
+        comment.user = request.user
+        comment.article_id = id
+        comment.save()
+    return redirect('articles:detail', id=id)
+
 
 def comment_delete(request, id, comment_id):
-    pass
+    comment = Comment.objects.get(id=comment_id)
+    comment.delete()
+    return redirect('articles:detail', id=id)
