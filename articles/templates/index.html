@@ -6,10 +6,10 @@
     <a href="{% url 'articles:create' %}" class="btn btn-secondary">write</a>
     {% endif %}
     {% for article in articles %}
-    <div class="d-flex justify-content-between">
-        <a href="{% url 'articles:detail' id=article.id %}">{{ article.title }}</a>
-        <span>{{ article.user }}</span>
-        
+    <div class="">
+        <h3>{{ article.title }}</h3>
+        <p>{{ article.user }}</p>
+        <a href="{% url 'articles:detail' id=article.id %}">detail</a>
     </div>
     <hr>
     {% endfor %}
