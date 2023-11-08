@@ -39,20 +39,21 @@ def create(request):
 @login_required
 def update(request, id):
     article = Article.objects.get(id=id)
-    if request.user == article.user:
-        if request.method == 'POST':
-            form = ArticleForm(request.POST, instance=article)
-            if form.is_valid():
-                article = form.save()
-                return redirect('articles:detail', id=article.id)
-        else:
-            form = ArticleForm(instance=article)
-        context = {
-            'form': form,
-        }
-        return render(request, 'form.html', context)
-    return redirect('articles:detail', id=article.id)
+    if request.user != article.user:
+        return redirect('articles:detail', id=id)
+    if request.method == 'POST':
+        form = ArticleForm(request.POST, instance=article)
+        if form.is_valid():
+            article = form.save()
+            return redirect('articles:detail', id=id)
+    else:
+        form = ArticleForm(instance=article)
+    context = {
+        'form': form,
+    }
+    return render(request, 'form.html', context)
     
+
 @login_required
 def delete(request, id):
     article = Article.objects.get(id=id)
