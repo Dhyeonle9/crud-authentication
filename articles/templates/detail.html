@@ -11,7 +11,7 @@
         <p>{{ article.content }}</p>
     </div>
     <div class="card-footer">
-        {% if article.user == user %}
+        {% if user == article.user %}
         <a href="{% url 'articles:update' id=article.id %}">update</a>
         <a href="{% url 'articles:delete' id=article.id %}">delete</a>
         {% endif %}
