@@ -52,3 +52,9 @@ def delete(request, id):
     article = Article.objects.get(id=id)
     article.delete()
     return redirect('articles:index')
+
+def comment_create(request, id):
+    pass
+
+def comment_delete(request, id, comment_id):
+    pass
