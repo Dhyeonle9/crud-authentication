@@ -36,6 +36,7 @@ def create(request):
     }
     return render(request, 'form.html', context)
 
+@login_required
 def update(request, id):
     article = Article.objects.get(id=id)
     if request.method == 'POST':
@@ -49,7 +50,8 @@ def update(request, id):
         'form': form,
     }
     return render(request, 'form.html', context)
-
+    
+@login_required
 def delete(request, id):
     article = Article.objects.get(id=id)
     article.delete()
@@ -65,8 +67,10 @@ def comment_create(request, id):
         comment.save()
     return redirect('articles:detail', id=id)
 
-
+@login_required
 def comment_delete(request, id, comment_id):
     comment = Comment.objects.get(id=comment_id)
-    comment.delete()
+    if request.user == comment.user:
+        comment.delete()
     return redirect('articles:detail', id=id)
+    
